@@ -35,6 +35,7 @@ _site/
 .jekyll-metadata
 vendor/
 .bundle/
+Gemfile.lock
 
 book.md
 book_ko.md

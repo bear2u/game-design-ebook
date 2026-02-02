@@ -35,8 +35,16 @@ jobs:
       - name: Build with Jekyll
         run: |
           gem install jekyll bundler
-          bundle install
+          bundle install --path vendor/bundle
+          # vendor 폴더를 임시로 이동하여 Jekyll 스캔 방지
+          if [ -d "vendor" ]; then
+            mv vendor vendor.tmp
+          fi
           bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+          # 빌드 후 vendor 폴더 복원
+          if [ -d "vendor.tmp" ]; then
+            mv vendor.tmp vendor
+          fi
         env:
           JEKYLL_ENV: production
       

@@ -54,6 +54,9 @@ exclude:
   - README_EBOOK.md
   - index.html.backup  # 백업 파일 제외
   - _layouts/  # Jekyll 레이아웃은 빌드에만 사용
+  - vendor/  # Ruby gem vendor 폴더 제외
+  - .bundle/  # Bundler 설정 폴더 제외
+  - Gemfile.lock  # Gemfile.lock 제외
 
 # 테마 (Minima 대신 커스텀 레이아웃 사용)
 theme: null
