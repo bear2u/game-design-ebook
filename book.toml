@@ -1,0 +1,33 @@
+[book]
+title = "게임 디자인의 예술"
+authors = ["Jesse Schell"]
+description = "A Book of Lenses - 한국어 번역판"
+language = "ko"
+src = "src"
+
+[build]
+build-dir = "docs"
+create-missing = false
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/user/game-design-translate"
+site-url = "/"
+cname = ""
+edit-url-template = ""
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+copy-js = true
+
+[output.html.playground]
+editable = false
+copyable = true
+copy-js = true

@@ -1,0 +1,63 @@
+# Jekyll 설정
+title: "게임 디자인의 기술"
+description: "The Art of Game Design - A Book of Lenses 번역본"
+author: "Jesse Schell"
+lang: ko
+baseurl: ""
+url: ""
+
+# Jekyll 플러그인
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# 마크다운 설정
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# translate 폴더의 마크다운 파일은 HTML로 변환하지 않음 (정적 파일로 처리)
+defaults:
+  - scope:
+      path: "translate"
+    values:
+      layout: null
+      permalink: /translate/:name
+
+# 포함할 파일/폴더
+include:
+  - translate/
+  - imgs/
+
+# 마크다운 파일을 그대로 유지 (HTML로 변환하지 않음)
+keep_files:
+  - translate/
+
+# 기타 설정
+exclude:
+  - README.md
+  - .gitignore
+  - book.md
+  - book_ko.md
+  - book.toml
+  - sample_ko.md
+  - sample_state.json
+  - translation_state.json
+  - scripts/
+  - src/
+  - docs/
+  - .github/workflows/deploy.yml
+  - .github/workflows/deploy-ebook.yml
+  - GITHUB_PAGES_SETUP.md
+  - README_EBOOK.md
+  - index.html.backup  # 백업 파일 제외
+  - _layouts/  # Jekyll 레이아웃은 빌드에만 사용
+
+# 테마 (Minima 대신 커스텀 레이아웃 사용)
+theme: null
+
+# 빌드 설정
+sass:
+  style: compressed

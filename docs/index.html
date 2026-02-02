@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 디자인의 기술 - 이북</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .chapter-list {
+            list-style: none;
+        }
+
+        .chapter-list li {
+            margin-bottom: 8px;
+        }
+
+        .chapter-list a {
+            display: block;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .chapter-list a:hover {
+            background: #f0f0f0;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .chapter-list a.active {
+            background: #667eea;
+            color: white;
+            border-left-color: #764ba2;
+        }
+
+        .content-area {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 600px;
+        }
+
+        .chapter-content {
+            display: none;
+        }
+
+        .chapter-content.active {
+            display: block;
+        }
+
+        .chapter-content h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .chapter-content h2 {
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .chapter-content h3 {
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .chapter-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .chapter-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .chapter-content hr {
+            border: none;
+            border-top: 2px solid #eee;
+            margin: 30px 0;
+        }
+
+        .chapter-content ul, .chapter-content ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .chapter-content li {
+            margin-bottom: 10px;
+        }
+
+        .chapter-content blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .empty-state h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+        }
+
+        .page-number {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>게임 디자인의 기술</h1>
+        <p>The Art of Game Design - A Book of Lenses</p>
+        <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">Jesse Schell 저</p>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <aside class="sidebar">
+                <h2>목차</h2>
+                <ul class="chapter-list" id="chapterList">
+                    <li><a href="#" data-chapter="1">챕터 1: 시작에는 디자이너가 있다</a></li>
+                    <li><a href="#" data-chapter="2">챕터 2: 디자이너는 경험을 만든다</a></li>
+                    <li><a href="#" data-chapter="3">챕터 3: 경험은 게임에서 나온다</a></li>
+                    <li><a href="#" data-chapter="4">챕터 4: 게임은 요소로 구성된다</a></li>
+                    <li><a href="#" data-chapter="5">챕터 5: 요소는 테트라드로 통합된다</a></li>
+                    <li><a href="#" data-chapter="6">챕터 6: 기본 요소</a></li>
+                    <li><a href="#" data-chapter="7">챕터 7: 게임은 아이디어에서 시작된다</a></li>
+                    <li><a href="#" data-chapter="8">챕터 8: 게임은 플레이어를 위해 만들어진다</a></li>
+                    <li><a href="#" data-chapter="9">챕터 9: 경험은 게임에서 나온다</a></li>
+                    <li><a href="#" data-chapter="10">챕터 10: 경험은 흐름에서 나온다</a></li>
+                    <li><a href="#" data-chapter="11">챕터 11: 경험은 흥미로운 선택에서 나온다</a></li>
+                    <li><a href="#" data-chapter="12">챕터 12: 경험은 문제 해결에서 나온다</a></li>
+                    <li><a href="#" data-chapter="13">챕터 13: 경험은 균형에서 나온다</a></li>
+                    <li><a href="#" data-chapter="14">챕터 14: 경험은 재미있는 것에서 나온다</a></li>
+                    <li><a href="#" data-chapter="15">챕터 15: 경험은 플레이어 유형에서 나온다</a></li>
+                    <li><a href="#" data-chapter="16">챕터 16: 경험은 플레이어의 마음에서 나온다</a></li>
+                    <li><a href="#" data-chapter="17">챕터 17: 경험은 인터페이스에서 나온다</a></li>
+                    <li><a href="#" data-chapter="18">챕터 18: 경험은 관점에서 나온다</a></li>
+                    <li><a href="#" data-chapter="19">챕터 19: 경험은 스토리에서 나온다</a></li>
+                    <li><a href="#" data-chapter="20">챕터 20: 경험은 미학에서 나온다</a></li>
+                    <li><a href="#" data-chapter="21">챕터 21: 일부 게임은 다른 플레이어들과 함께 플레이된다</a></li>
+                    <li><a href="#" data-chapter="22">챕터 22: 다른 플레이어들은 때때로 커뮤니티를 형성한다</a></li>
+                    <li><a href="#" data-chapter="23">챕터 23: 디자이너는 보통 팀과 함께 일한다</a></li>
+                    <li><a href="#" data-chapter="24">챕터 24: 팀은 때때로 문서를 통해 의사소통한다</a></li>
+                    <li><a href="#" data-chapter="25">챕터 25: 좋은 게임은 플레이테스팅을 통해 만들어진다</a></li>
+                </ul>
+            </aside>
+
+            <main class="content-area">
+                <div id="contentContainer">
+                    <div class="empty-state">
+                        <h2>챕터를 선택하세요</h2>
+                        <p>왼쪽 목차에서 읽고 싶은 챕터를 클릭하세요.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 마크다운 설정
+        const renderer = new marked.Renderer();
+        const originalParagraph = renderer.paragraph;
+        renderer.paragraph = function(text) {
+            // HTML 이미지나 div가 포함된 경우 그대로 반환
+            if (text.includes('<img') || text.includes('<div')) {
+                return text + '\n';
+            }
+            return originalParagraph.call(this, text);
+        };
+        
+        // 코드 블록 렌더링 개선
+        renderer.code = function(code, language) {
+            return `<pre><code class="language-${language}">${code}</code></pre>`;
+        };
+        
+        marked.setOptions({ 
+            renderer: renderer,
+            breaks: true,
+            gfm: true
+        });
+        
+        function parseMarkdown(markdown) {
+            // 페이지 번호를 먼저 처리 (마크다운 변환 전에)
+            markdown = markdown.replace(/^## Page (\d+)$/gim, '\n<div class="page-number">Page $1</div>\n');
+            
+            // 마크다운을 HTML로 변환
+            let html = marked.parse(markdown);
+            
+            return html;
+        }
+
+        // 챕터 로드
+        async function loadChapter(chapterNum) {
+            const contentContainer = document.getElementById('contentContainer');
+            contentContainer.innerHTML = '<div class="loading">챕터를 불러오는 중...</div>';
+            
+            try {
+                const response = await fetch(`translate/chapter${chapterNum}.md`);
+                if (!response.ok) {
+                    throw new Error('챕터를 찾을 수 없습니다.');
+                }
+                
+                const markdown = await response.text();
+                const html = parseMarkdown(markdown);
+                
+                // 이미지 경로 수정
+                // translate 폴더에서 ../imgs/ 는 루트의 imgs/를 가리킴
+                let finalHtml = html.replace(/src="\.\.\/imgs\//g, 'src="imgs/');
+                
+                contentContainer.innerHTML = `<div class="chapter-content active">${finalHtml}</div>`;
+                
+                // 활성 링크 업데이트
+                document.querySelectorAll('.chapter-list a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-chapter="${chapterNum}"]`).classList.add('active');
+                
+                // 스크롤 상단으로
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // URL 해시 업데이트
+                window.history.pushState(null, '', `#${chapterNum}`);
+                
+            } catch (error) {
+                contentContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h2>오류 발생</h2>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 20px;">챕터 ${chapterNum}을(를) 불러올 수 없습니다.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 목차 클릭 이벤트
+        document.querySelectorAll('.chapter-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const chapterNum = link.getAttribute('data-chapter');
+                loadChapter(chapterNum);
+            });
+        });
+
+        // URL 해시로 챕터 로드
+        window.addEventListener('hashchange', () => {
+            const chapterNum = window.location.hash.substring(1);
+            if (chapterNum) {
+                loadChapter(chapterNum);
+            }
+        });
+
+        // 초기 로드
+        if (window.location.hash) {
+            const chapterNum = window.location.hash.substring(1);
+            loadChapter(chapterNum);
+        }
+    </script>
+</body>
+</html>
